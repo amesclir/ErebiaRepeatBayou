@@ -1,0 +1,190 @@
+#NEXUS
+begin taxa;
+	dimensions ntax=87;
+	taxlabels
+	AglUrt
+	ApanHyp
+	Pararge
+	VanAta
+	VanCard
+	aethiopella
+	aethiops
+	ajanensis
+	albergana
+	kalmuka
+	brimo
+	calcaria
+	callias
+	cassioides
+	christi
+	claudina
+	cyclopius
+	disa
+	discoidalis
+	edda
+	embla
+	epiphron
+	epipsoidea
+	epistygne
+	erinnyn
+	eriphyle
+	euryale
+	fasciata
+	flavofasciata
+	fletcheri
+	gorge
+	gorgone
+	graucasica
+	hispania
+	iranica
+	jeniseiensis
+	kefersteinii
+	lafontainei
+	lefebvrei
+	ligea
+	mackinleyensis
+	magdalena
+	manchinus
+	manto
+	medusa
+	melampus
+	melancholica
+	melas
+	meolans
+	meta
+	mnestra
+	mongolica
+	montana
+	mopsos
+	neleus
+	neoridas
+	niphonica
+	nivalis
+	occulta
+	oeme
+	orientalis
+	ottomana
+	palarica
+	pandrose
+	parmenio
+	pawloskii
+	pharte
+	pluto
+	polaris
+	pronoe
+	radians
+	rhodopensis
+	rondoui
+	rossii
+	scipio
+	sokolovi
+	sthennyo
+	stirius
+	styx
+	sudetica
+	theano
+	triarius
+	tsengelensis
+	tyndarus
+	wanga
+	youngi
+	zapateri
+;
+end;
+
+begin trees;
+	tree tree_1 = [&R] (ajanensis:1.0,(ligea:1.0,(eriphyle:1.0,(euryale:1.0,(jeniseiensis:1.0,(manto:1.0,(epistygne:1.0,(((ottomana:1.0,((iranica:1.0,graucasica:1.0)[&label=1]:0.585749,(callias:1.0,((calcaria:1.0,(nivalis:1.0,tyndarus:1.0)[&label=1]:0.051418)[&label=1,!rotate=true]:0.30276,((neleus:1.0,cassioides:1.0)[&label=1,!rotate=true]:0.484763,(rondoui:1.0,hispania:1.0)[&label=1]:0.549555)[&label=0.99]:0.034978)[&label=1,!rotate=true]:0.102322)[&label=1,!rotate=true]:0.054341)[&label=1,!rotate=true]:0.3223)[&label=1,!rotate=true]:1.838808,((melampus:1.0,sudetica:1.0)[&label=1]:1.063755,(((aethiops:1.0,niphonica:1.0)[&label=1]:1.43355,((flavofasciata:1.0,(christi:1.0,(pharte:1.0,(kefersteinii:1.0,(orientalis:1.0,epiphron:1.0)[&label=1]:0.499573)[&label=1,!rotate=true]:0.320267)[&label=1,!rotate=false]:0.132174)[&label=1,!rotate=true]:0.375221)[&label=1,!rotate=true]:0.592524,((oeme:1.0,claudina:1.0)[&label=1]:0.068904,(styx:1.0,(melas:1.0,(pronoe:1.0,(scipio:1.0,((montana:1.0,stirius:1.0)[&label=1]:0.46953,(lefebvrei:1.0,(zapateri:1.0,(neoridas:1.0,melancholica:1.0)[&label=1,!rotate=true]:0.065334)[&label=1]:0.334559)[&label=1,!rotate=true]:0.458186)[&label=1,!rotate=true]:0.120659)[&label=1,!rotate=true]:0.068627)[&label=1]:0.076562)[&label=1]:0.21839)[&label=1]:0.524603)[&label=1]:0.070731)[&label=1,!rotate=true]:0.069184)[&label=0.76,!rotate=false]:0.02496,(((pluto:1.0,gorge:1.0)[&label=1,!rotate=true]:0.124874,(gorgone:1.0,(rhodopensis:1.0,(mnestra:1.0,aethiopella:1.0)[&label=1,!rotate=true]:0.058599)[&label=1]:0.478463)[&label=1,!rotate=true]:0.510765)[&label=1,!rotate=true]:0.267937,(albergana:1.0,((triarius:1.0,(epipsoidea:1.0,(medusa:1.0,polaris:1.0)[&label=1]:0.231063)[&label=1,!rotate=true]:1.100683)[&label=1,!rotate=true]:1.779402,((palarica:1.0,meolans:1.0)[&label=1]:1.255211,((theano:1.0,(pawloskii:1.0,(tsengelensis:1.0,brimo:1.0)[&label=1]:0.353162)[&label=1,!rotate=true]:0.118628)[&label=1,!rotate=true]:0.330225,(lafontainei:1.0,(fletcheri:1.0,(occulta:1.0,youngi:1.0)[&label=1]:0.09428)[&label=1]:0.15514)[&label=1,!rotate=true]:0.715996)[&label=1]:0.265165)[&label=1,!rotate=true]:0.381517)[&label=1,!rotate=true]:0.185452)[&label=1,!rotate=true]:0.123596)[&label=1,!rotate=true]:0.114785)[&label=1,!rotate=true]:0.043371)[&label=1]:0.229114)[&label=0.93]:0.041896,((sthennyo:1.0,pandrose:1.0)[&label=1]:1.175312,(((sokolovi:1.0,(parmenio:1.0,((radians:1.0,kalmuka:1.0)[&label=1]:0.116969,(mongolica:1.0,(meta:1.0,mopsos:1.0)[&label=1]:0.788475)[&label=1]:0.415094)[&label=1,!rotate=true]:0.106031)[&label=1]:0.108706)[&label=1]:0.372176,((rossii:1.0,(cyclopius:1.0,(embla:1.0,(disa:1.0,manchinus:1.0)[&label=1]:0.131317)[&label=1]:0.482886)[&label=1,!rotate=true]:0.103117)[&label=1,!rotate=true]:0.445989,((wanga:1.0,edda:1.0)[&label=1]:0.45958,(discoidalis:1.0,(mackinleyensis:1.0,(magdalena:1.0,(erinnyn:1.0,fasciata:1.0)[&label=0.79]:0.018014)[&label=1]:0.14221)[&label=1]:0.133385)[&label=1]:0.115454)[&label=1,!rotate=true]:0.535078)[&label=1,!rotate=true]:0.751535)[&label=1,!rotate=true]:0.205742,(ApanHyp:1.0,(Pararge:1.0,(AglUrt:1.0,(VanCard:1.0,VanAta:1.0)[&label=1]:0.690754)[&label=1]:3.604265)[&label=1]:1.508278)[&label=1,!rotate=false]:4.565269)[&label=1]:0.841139)[&label=1,!rotate=true]:0.147122)[&label=1]:0.504041)[&label=1,!rotate=true]:0.370873)[&label=1,!rotate=true]:0.07112)[&label=1,!rotate=false]:0.150381)[&label=1,!rotate=true]:0.068623)[&label=1]:1.389002):0.0);
+end;
+
+begin figtree;
+	set appearance.backgroundColorAttribute="Default";
+	set appearance.backgroundColour=#ffffff;
+	set appearance.branchColorAttribute="User selection";
+	set appearance.branchColorGradient=false;
+	set appearance.branchLineWidth=1.0;
+	set appearance.branchMinLineWidth=0.0;
+	set appearance.branchWidthAttribute="Fixed";
+	set appearance.foregroundColour=#000000;
+	set appearance.hilightingGradient=false;
+	set appearance.selectionColour=#2d3680;
+	set branchLabels.colorAttribute="User selection";
+	set branchLabels.displayAttribute="Branch times";
+	set branchLabels.fontName="sansserif";
+	set branchLabels.fontSize=8;
+	set branchLabels.fontStyle=0;
+	set branchLabels.isShown=false;
+	set branchLabels.significantDigits=4;
+	set colour.scheme.label="label:InterpolatingContinuous{{false,false,0.7,1.0},#-26368,#-16711681,#-16777216}";
+	set layout.expansion=0;
+	set layout.layoutType="RECTILINEAR";
+	set layout.zoom=396;
+	set legend.attribute="label";
+	set legend.fontSize=10.0;
+	set legend.isShown=false;
+	set legend.significantDigits=4;
+	set nodeBars.barWidth=4.0;
+	set nodeBars.displayAttribute=null;
+	set nodeBars.isShown=false;
+	set nodeLabels.colorAttribute="label";
+	set nodeLabels.displayAttribute="label";
+	set nodeLabels.fontName="sansserif";
+	set nodeLabels.fontSize=8;
+	set nodeLabels.fontStyle=0;
+	set nodeLabels.isShown=true;
+	set nodeLabels.significantDigits=4;
+	set nodeShapeExternal.colourAttribute="User selection";
+	set nodeShapeExternal.isShown=false;
+	set nodeShapeExternal.minSize=10.0;
+	set nodeShapeExternal.scaleType=Width;
+	set nodeShapeExternal.shapeType=Circle;
+	set nodeShapeExternal.size=4.0;
+	set nodeShapeExternal.sizeAttribute="Fixed";
+	set nodeShapeInternal.colourAttribute="User selection";
+	set nodeShapeInternal.isShown=false;
+	set nodeShapeInternal.minSize=10.0;
+	set nodeShapeInternal.scaleType=Width;
+	set nodeShapeInternal.shapeType=Circle;
+	set nodeShapeInternal.size=5.0;
+	set nodeShapeInternal.sizeAttribute="Fixed";
+	set polarLayout.alignTipLabels=false;
+	set polarLayout.angularRange=0;
+	set polarLayout.rootAngle=0;
+	set polarLayout.rootLength=100;
+	set polarLayout.showRoot=true;
+	set radialLayout.spread=0.0;
+	set rectilinearLayout.alignTipLabels=false;
+	set rectilinearLayout.curvature=0;
+	set rectilinearLayout.rootLength=100;
+	set scale.offsetAge=0.0;
+	set scale.rootAge=1.0;
+	set scale.scaleFactor=1.0;
+	set scale.scaleRoot=false;
+	set scaleAxis.automaticScale=true;
+	set scaleAxis.fontSize=8.0;
+	set scaleAxis.isShown=false;
+	set scaleAxis.lineWidth=1.0;
+	set scaleAxis.majorTicks=1.0;
+	set scaleAxis.minorTicks=0.5;
+	set scaleAxis.origin=0.0;
+	set scaleAxis.reverseAxis=false;
+	set scaleAxis.showGrid=true;
+	set scaleBar.automaticScale=true;
+	set scaleBar.fontSize=10.0;
+	set scaleBar.isShown=true;
+	set scaleBar.lineWidth=1.0;
+	set scaleBar.scaleRange=0.0;
+	set tipLabels.colorAttribute="User selection";
+	set tipLabels.displayAttribute="Names";
+	set tipLabels.fontName="sansserif";
+	set tipLabels.fontSize=8;
+	set tipLabels.fontStyle=0;
+	set tipLabels.isShown=true;
+	set tipLabels.significantDigits=4;
+	set trees.order=false;
+	set trees.orderType="increasing";
+	set trees.rooting=true;
+	set trees.rootingType="User Selection";
+	set trees.transform=false;
+	set trees.transformType="cladogram";
+end;
+

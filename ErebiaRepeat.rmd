@@ -1,0 +1,696 @@
+---
+title: "ErebiaRepeat"
+author: "Marcial Escudero"
+date: '2023-02-21'
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+library(bayou)
+
+tree <- read.nexus("erebia_nondated_phylo.nex")
+tree
+mydata <- read.table("erebia_dataset.txt")
+mydata
+row.names(mydata)
+setdiff(tree$tip.label, row.names(mydata))
+tree <- drop.tip(tree,setdiff(tree$tip.label, row.names(mydata)))
+setdiff(tree$tip.label, row.names(mydata))
+setdiff(row.names(mydata),tree$tip.label)
+names(mydata)
+
+#Chromosome_2N
+dat.2n <- as.numeric(mydata[,4])
+names(dat.2n) <- row.names(mydata)
+
+priorOU.2n <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.2n), sd=1.5*sd(dat.2n)))
+)
+
+
+
+
+
+dev.off()
+startpars.2n <- priorSim(priorOU.2n, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(1)
+mcmcOU.2n <- bayou.makeMCMC(tree, dat.2n, pred = NULL, SE = 0, model = "OU",  priorOU.2n,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.2n",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.2n$run(2000000) # Run the MCMC
+chainOU.2n <- mcmcOU.2n$load()
+
+chainOU.2n <- set.burnin(chainOU.2n, 0.25)
+summary.2n <- summary(chainOU.2n)
+par(mfrow=c(3, 5) )
+plot(chainOU.2n, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.2n, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.2n, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.2n, burnin = 0.25, chainOU.2n, pp.cutoff = 0.3)
+
+
+
+
+
+
+#Class_I.DIRS
+dat.Class_I.DIRS <- as.numeric(mydata[,5])
+names(dat.Class_I.DIRS) <- row.names(mydata)
+
+priorOU.Class_I.DIRS <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_I.DIRS), sd=1.5*sd(dat.Class_I.DIRS)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_I.DIRS <- priorSim(priorOU.Class_I.DIRS, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(11111)
+mcmcOU.Class_I.DIRS <- bayou.makeMCMC(tree, dat.Class_I.DIRS, pred = NULL, SE = 0, model = "OU",  priorOU.Class_I.DIRS,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_I.DIRS",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_I.DIRS$run(1000000) # Run the MCMC
+chainOU.Class_I.DIRS <- mcmcOU.Class_I.DIRS$load()
+
+chainOU.Class_I.DIRS <- set.burnin(chainOU.Class_I.DIRS, 0.25)
+summary.Class_I.DIRS <- summary(chainOU.Class_I.DIRS)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_I.DIRS, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_I.DIRS, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.Class_I.DIRS, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_I.DIRS, burnin = 0.25, chainOU.Class_I.DIRS, pp.cutoff = 0.3)
+
+
+
+#Class_I.LINE
+dat.Class_I.LINE <- as.numeric(mydata[,6])
+names(dat.Class_I.LINE) <- row.names(mydata)
+
+priorOU.Class_I.LINE <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_I.LINE), sd=1.5*sd(dat.Class_I.LINE)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_I.LINE <- priorSim(priorOU.Class_I.LINE, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(1)
+mcmcOU.Class_I.LINE <- bayou.makeMCMC(tree, dat.Class_I.LINE, pred = NULL, SE = 0, model = "OU",  priorOU.Class_I.LINE,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_I.LINE",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_I.LINE$run(1000000) # Run the MCMC
+chainOU.Class_I.LINE <- mcmcOU.Class_I.LINE$load()
+
+chainOU.Class_I.LINE <- set.burnin(chainOU.Class_I.LINE, 0.25)
+summary.Class_I.LINE <- summary(chainOU.Class_I.LINE)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_I.LINE, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_I.LINE, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5,edge.type = "none", edge.color = 1)
+plotBranchHeatMap(tree, chainOU.Class_I.LINE, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_I.LINE, burnin = 0.25, chainOU.Class_I.LINE, pp.cutoff = 0.3)
+
+#Class_I.LTR
+dat.Class_I.LTR <- as.numeric(mydata[,7])
+names(dat.Class_I.LTR) <- row.names(mydata)
+
+priorOU.Class_I.LTR <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_I.LTR), sd=1.5*sd(dat.Class_I.LTR)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_I.LTR <- priorSim(priorOU.Class_I.LTR, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(111)
+mcmcOU.Class_I.LTR <- bayou.makeMCMC(tree, dat.Class_I.LTR, pred = NULL, SE = 0, model = "OU",  priorOU.Class_I.LTR,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_I.LTR",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_I.LTR$run(2000000) # Run the MCMC
+chainOU.Class_I.LTR <- mcmcOU.Class_I.LTR$load()
+
+chainOU.Class_I.LTR <- set.burnin(chainOU.Class_I.LTR, 0.25)
+summary.Class_I.LTR <- summary(chainOU.Class_I.LTR)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_I.LTR, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_I.LTR, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.Class_I.LTR, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_I.LTR, burnin = 0.25, chainOU.Class_I.LTR, pp.cutoff = 0.3)
+
+
+
+#Class_I.LTR.Bel.Pao
+dat.Class_I.LTR.Bel.Pao <- as.numeric(mydata[,8])
+names(dat.Class_I.LTR.Bel.Pao) <- row.names(mydata)
+
+priorOU.Class_I.LTR.Bel.Pao <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_I.LTR.Bel.Pao), sd=1.5*sd(dat.Class_I.LTR.Bel.Pao)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_I.LTR.Bel.Pao <- priorSim(priorOU.Class_I.LTR.Bel.Pao, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(12221)
+mcmcOU.Class_I.LTR.Bel.Pao <- bayou.makeMCMC(tree, dat.Class_I.LTR.Bel.Pao, pred = NULL, SE = 0, model = "OU",  priorOU.Class_I.LTR.Bel.Pao,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_I.LTR.Bel.Pao",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_I.LTR.Bel.Pao$run(2000000) # Run the MCMC
+chainOU.Class_I.LTR.Bel.Pao <- mcmcOU.Class_I.LTR.Bel.Pao$load()
+
+chainOU.Class_I.LTR.Bel.Pao <- set.burnin(chainOU.Class_I.LTR.Bel.Pao, 0.25)
+summary.Class_I.LTR.Bel.Pao <- summary(chainOU.Class_I.LTR.Bel.Pao)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_I.LTR.Bel.Pao, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_I.LTR.Bel.Pao, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.Class_I.LTR.Bel.Pao, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_I.LTR.Bel.Pao, burnin = 0.25, chainOU.Class_I.LTR.Bel.Pao, pp.cutoff = 0.3)
+
+#Class_I.LTR.Ty1_copia
+dat.Class_I.LTR.Ty1_copia <- as.numeric(mydata[,9])
+names(dat.Class_I.LTR.Ty1_copia) <- row.names(mydata)
+
+priorOU.Class_I.LTR.Ty1_copia <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_I.LTR.Ty1_copia), sd=1.5*sd(dat.Class_I.LTR.Ty1_copia)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_I.LTR.Ty1_copia <- priorSim(priorOU.Class_I.LTR.Ty1_copia, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(122)
+mcmcOU.Class_I.LTR.Ty1_copia <- bayou.makeMCMC(tree, dat.Class_I.LTR.Ty1_copia, pred = NULL, SE = 0, model = "OU",  priorOU.Class_I.LTR.Ty1_copia,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_I.LTR.Ty1_copia",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_I.LTR.Ty1_copia$run(2000000) # Run the MCMC
+chainOU.Class_I.LTR.Ty1_copia <- mcmcOU.Class_I.LTR.Ty1_copia$load()
+
+chainOU.Class_I.LTR.Ty1_copia <- set.burnin(chainOU.Class_I.LTR.Ty1_copia, 0.25)
+summary.Class_I.LTR.Ty1_copia <- summary(chainOU.Class_I.LTR.Ty1_copia)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_I.LTR.Ty1_copia, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_I.LTR.Ty1_copia, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.Class_I.LTR.Ty1_copia, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_I.LTR.Ty1_copia, burnin = 0.25, chainOU.Class_I.LTR.Ty1_copia, pp.cutoff = 0.3)
+
+
+#Class_I.LTR.Ty1_gypsy
+dat.Class_I.LTR.Ty1_gypsy <- as.numeric(mydata[,10])
+names(dat.Class_I.LTR.Ty1_gypsy) <- row.names(mydata)
+
+priorOU.Class_I.LTR.Ty1_gypsy <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_I.LTR.Ty1_gypsy), sd=1.5*sd(dat.Class_I.LTR.Ty1_gypsy)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_I.LTR.Ty1_gypsy <- priorSim(priorOU.Class_I.LTR.Ty1_gypsy, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(1)
+mcmcOU.Class_I.LTR.Ty1_gypsy <- bayou.makeMCMC(tree, dat.Class_I.LTR.Ty1_gypsy, pred = NULL, SE = 0, model = "OU",  priorOU.Class_I.LTR.Ty1_gypsy,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_I.LTR.Ty1_gypsy",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_I.LTR.Ty1_gypsy$run(1000000) # Run the MCMC
+chainOU.Class_I.LTR.Ty1_gypsy <- mcmcOU.Class_I.LTR.Ty1_gypsy$load()
+
+chainOU.Class_I.LTR.Ty1_gypsy <- set.burnin(chainOU.Class_I.LTR.Ty1_gypsy, 0.25)
+summary.Class_I.LTR.Ty1_gypsy <- summary(chainOU.Class_I.LTR.Ty1_gypsy)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_I.LTR.Ty1_gypsy, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_I.LTR.Ty1_gypsy, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5,edge.type = "none", edge.color = 1)
+plotBranchHeatMap(tree, chainOU.Class_I.LTR.Ty1_gypsy, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_I.LTR.Ty1_gypsy, burnin = 0.25, chainOU.Class_I.LTR.Ty1_gypsy, pp.cutoff = 0.3)
+
+
+
+#Class_I.LTR.Ty1_Penelope
+dat.Class_I.LTR.Ty1_Penelope <- as.numeric(mydata[,11])
+names(dat.Class_I.LTR.Ty1_Penelope) <- row.names(mydata)
+
+priorOU.Class_I.LTR.Ty1_Penelope <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_I.LTR.Ty1_Penelope), sd=1.5*sd(dat.Class_I.LTR.Ty1_Penelope)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_I.LTR.Ty1_Penelope <- priorSim(priorOU.Class_I.LTR.Ty1_Penelope, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(1)
+mcmcOU.Class_I.LTR.Ty1_Penelope <- bayou.makeMCMC(tree, dat.Class_I.LTR.Ty1_Penelope, pred = NULL, SE = 0, model = "OU",  priorOU.Class_I.LTR.Ty1_Penelope,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_I.LTR.Ty1_Penelope",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_I.LTR.Ty1_Penelope$run(1000000) # Run the MCMC
+chainOU.Class_I.LTR.Ty1_Penelope <- mcmcOU.Class_I.LTR.Ty1_Penelope$load()
+
+chainOU.Class_I.LTR.Ty1_Penelope <- set.burnin(chainOU.Class_I.LTR.Ty1_Penelope, 0.25)
+summary.Class_I.LTR.Ty1_Penelope <- summary(chainOU.Class_I.LTR.Ty1_Penelope)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_I.LTR.Ty1_Penelope, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_I.LTR.Ty1_Penelope, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5,edge.type = "none", edge.color = 1)
+plotBranchHeatMap(tree, chainOU.Class_I.LTR.Ty1_Penelope, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_I.LTR.Ty1_Penelope, burnin = 0.25, chainOU.Class_I.LTR.Ty1_Penelope, pp.cutoff = 0.3)
+
+
+
+#Class_II.Subclass_2.Helitron
+dat.Class_II.Subclass_2.Helitron <- as.numeric(mydata[,12])
+names(dat.Class_II.Subclass_2.Helitron) <- row.names(mydata)
+
+priorOU.Class_II.Subclass_2.Helitron <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_II.Subclass_2.Helitron), sd=1.5*sd(dat.Class_II.Subclass_2.Helitron)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_II.Subclass_2.Helitron <- priorSim(priorOU.Class_II.Subclass_2.Helitron, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(1)
+mcmcOU.Class_II.Subclass_2.Helitron <- bayou.makeMCMC(tree, dat.Class_II.Subclass_2.Helitron, pred = NULL, SE = 0, model = "OU",  priorOU.Class_II.Subclass_2.Helitron,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_II.Subclass_2.Helitron",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_II.Subclass_2.Helitron$run(3000000) # Run the MCMC
+chainOU.Class_II.Subclass_2.Helitron <- mcmcOU.Class_II.Subclass_2.Helitron$load()
+
+chainOU.Class_II.Subclass_2.Helitron <- set.burnin(chainOU.Class_II.Subclass_2.Helitron, 0.25)
+summary.Class_II.Subclass_2.Helitron <- summary(chainOU.Class_II.Subclass_2.Helitron)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_II.Subclass_2.Helitron, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_II.Subclass_2.Helitron, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.Class_II.Subclass_2.Helitron, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_II.Subclass_2.Helitron, burnin = 0.25, chainOU.Class_II.Subclass_2.Helitron, pp.cutoff = 0.3)
+
+#Class_II.Subclass_2.Maverick
+dat.Class_II.Subclass_2.Maverick <- as.numeric(mydata[,13])
+names(dat.Class_II.Subclass_2.Maverick) <- row.names(mydata)
+
+priorOU.Class_II.Subclass_2.Maverick <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.Class_II.Subclass_2.Maverick), sd=1.5*sd(dat.Class_II.Subclass_2.Maverick)))
+)
+
+
+
+
+
+dev.off()
+startpars.Class_II.Subclass_2.Maverick <- priorSim(priorOU.Class_II.Subclass_2.Maverick, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(1)
+mcmcOU.Class_II.Subclass_2.Maverick <- bayou.makeMCMC(tree, dat.Class_II.Subclass_2.Maverick, pred = NULL, SE = 0, model = "OU",  priorOU.Class_II.Subclass_2.Maverick,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.Class_II.Subclass_2.Maverick",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.Class_II.Subclass_2.Maverick$run(1000000) # Run the MCMC
+chainOU.Class_II.Subclass_2.Maverick <- mcmcOU.Class_II.Subclass_2.Maverick$load()
+
+chainOU.Class_II.Subclass_2.Maverick <- set.burnin(chainOU.Class_II.Subclass_2.Maverick, 0.25)
+summary.Class_II.Subclass_2.Maverick <- summary(chainOU.Class_II.Subclass_2.Maverick)
+par(mfrow=c(3, 5) )
+plot(chainOU.Class_II.Subclass_2.Maverick, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.Class_II.Subclass_2.Maverick, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5,edge.type = "none", edge.color = 1)
+plotBranchHeatMap(tree, chainOU.Class_II.Subclass_2.Maverick, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.Class_II.Subclass_2.Maverick, burnin = 0.25, chainOU.Class_II.Subclass_2.Maverick, pp.cutoff = 0.3)
+
+
+#rDNA.45S_rDNA
+dat.rDNA.45S_rDNA <- as.numeric(mydata[,14])
+names(dat.rDNA.45S_rDNA) <- row.names(mydata)
+
+priorOU.rDNA.45S_rDNA <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.rDNA.45S_rDNA), sd=1.5*sd(dat.rDNA.45S_rDNA)))
+)
+
+
+
+
+
+dev.off()
+startpars.rDNA.45S_rDNA <- priorSim(priorOU.rDNA.45S_rDNA, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(1)
+mcmcOU.rDNA.45S_rDNA <- bayou.makeMCMC(tree, dat.rDNA.45S_rDNA, pred = NULL, SE = 0, model = "OU",  priorOU.rDNA.45S_rDNA,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.rDNA.45S_rDNA",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.rDNA.45S_rDNA$run(2000000) # Run the MCMC
+chainOU.rDNA.45S_rDNA <- mcmcOU.rDNA.45S_rDNA$load()
+
+chainOU.rDNA.45S_rDNA <- set.burnin(chainOU.rDNA.45S_rDNA, 0.25)
+summary.rDNA.45S_rDNA <- summary(chainOU.rDNA.45S_rDNA)
+par(mfrow=c(3, 5) )
+plot(chainOU.rDNA.45S_rDNA, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.rDNA.45S_rDNA, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.rDNA.45S_rDNA, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.rDNA.45S_rDNA, burnin = 0.25, chainOU.rDNA.45S_rDNA, pp.cutoff = 0.3)
+
+
+#satellite
+dat.satellite <- as.numeric(mydata[,15])
+names(dat.satellite) <- row.names(mydata)
+
+priorOU.satellite <- make.prior(tree, 
+                      dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", 
+                                 dk="cdpois", dtheta="dnorm"),
+                      param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                 dk=list(lambda=4, kmax=8), dsb=list(bmax=1, prob=1), 
+                                 dtheta=list(mean=mean(dat.satellite), sd=1.5*sd(dat.satellite)))
+)
+
+
+
+
+
+dev.off()
+startpars.satellite <- priorSim(priorOU.satellite, tree, plot=TRUE, cex=0.5)$pars[[1]]
+
+
+
+
+set.seed(7)
+mcmcOU.satellite <- bayou.makeMCMC(tree, dat.satellite, pred = NULL, SE = 0, model = "OU",  priorOU.satellite,  samp = 10,  chunk = 100,  control = NULL,  tuning = NULL,  file.dir = tempdir(),  plot.freq = NULL,  outname = "bayou.satellite",  plot.fn = phenogram,  ticker.freq = 1000,   startpar = NULL,  moves = NULL, control.weights = NULL, lik.fn = NULL, perform.checks = TRUE)
+ # Set up the MCMC
+mcmcOU.satellite$run(2000000) # Run the MCMC
+chainOU.satellite <- mcmcOU.satellite$load()
+
+chainOU.satellite <- set.burnin(chainOU.satellite, 0.25)
+summary.satellite <- summary(chainOU.satellite)
+par(mfrow=c(3, 5) )
+plot(chainOU.satellite, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chainOU.satellite, burnin = 0.25, pp.cutoff = 0.3, cex = 0.5)
+plotBranchHeatMap(tree, chainOU.satellite, "theta", burnin = 0.25, pal = rainbow, cex = 0.5)
+phenogram.density(tree, dat.satellite, burnin = 0.25, chainOU.satellite, pp.cutoff = 0.3)
+
+```
+
+
+
+```{r}
+library(bayou)
+
+tree <- read.nexus("erebia_nondated_phylo.nex")
+tree
+mydata <- read.table("erebia_dataset.txt")
+mydata
+row.names(mydata)
+setdiff(tree$tip.label, row.names(mydata))
+tree <- drop.tip(tree,setdiff(tree$tip.label, row.names(mydata)))
+
+#Class_I.DIRS
+prior.11.Class_I.DIRS <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.DIRS="dnorm",
+                                  dsb="fixed", dk="fixed", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_I.DIRS=list(mean=0.7, sd=0.15),
+                                  dtheta=list(mean=0, sd=1)),
+                       fixed=list(k=0, sb=numeric(0))
+)
+
+prior.N1.Class_I.DIRS <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.DIRS="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dbeta_Class_I.DIRS=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50),
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+prior.NN.Class_I.DIRS <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.DIRS="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_I.DIRS=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50), 
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+D11.Class_I.DIRS = list(alpha=2, sig2=2, beta_Class_I.DIRS=0.1, k=1, theta=0.5, slide=1)
+DN1.Class_I.DIRS = list(alpha=2, sig2=2, beta_Class_I.DIRS=0.1, k=1, theta=2, slide=1)
+DNN.Class_I.DIRS = list(alpha=2, sig2=2, beta_Class_I.DIRS=0.3, k=c(1,1), theta=2, slide=1)
+
+pred.Class_I.DIRS <- as.numeric(mydata[,5])
+dim(pred.Class_I.DIRS) <- c(47,1)
+row.names(pred.Class_I.DIRS) <- row.names(mydata)
+pred.Class_I.DIRS
+colnames(pred.Class_I.DIRS) <- c("Class_I.DIRS")
+
+set.seed(1111111)
+model.11.Class_I.DIRS <- makeBayouModel(dat.2n ~ Class_I.DIRS, rjpars = c(), 
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.DIRS, SE=0, prior=prior.11.Class_I.DIRS, D=D11.Class_I.DIRS)
+model.N1.Class_I.DIRS <- makeBayouModel(dat.2n ~ Class_I.DIRS, rjpars = c("theta"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.DIRS, SE=0, prior=prior.N1.Class_I.DIRS, D=DN1.Class_I.DIRS)
+model.NN.Class_I.DIRS <- makeBayouModel(dat.2n ~ Class_I.DIRS, rjpars = c("theta", "Class_I.DIRS"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.DIRS, SE=0, prior=prior.NN.Class_I.DIRS, D=DNN.Class_I.DIRS)
+
+mcmc.11.Class_I.DIRS <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.DIRS, SE=0, model=model.11.Class_I.DIRS$model, prior=prior.11.Class_I.DIRS, startpar=model.11.Class_I.DIRS$startpar, outname="model11_r001_Class_I.DIRS", plot.freq=NULL)
+mcmc.N1.Class_I.DIRS <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.DIRS, SE=0, model=model.N1.Class_I.DIRS$model, prior=prior.N1.Class_I.DIRS, startpar=model.N1.Class_I.DIRS$startpar, outname="modelN1_r001_Class_I.DIRS", plot.freq=NULL)
+mcmc.NN.Class_I.DIRS <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.DIRS, SE=0, model=model.NN.Class_I.DIRS$model, prior=prior.NN.Class_I.DIRS, startpar=model.NN.Class_I.DIRS$startpar, outname="modelNN_r001_Class_I.DIRS", plot.freq=NULL)
+
+set.seed(1)
+mcmc.11.Class_I.DIRS$run(1000000)
+mcmc.N1.Class_I.DIRS$run(1000000)
+mcmc.NN.Class_I.DIRS$run(1000000)
+
+chain.11.Class_I.DIRS <- set.burnin(mcmc.11.Class_I.DIRS$load(), 0.3)
+chain.N1.Class_I.DIRS <- set.burnin(mcmc.N1.Class_I.DIRS$load(), 0.3)
+chain.NN.Class_I.DIRS <- set.burnin(mcmc.NN.Class_I.DIRS$load(), 0.3)
+
+shiftsumsN1.Class_I.DIRS <- shiftSummaries(chain.N1.Class_I.DIRS, mcmc.N1.Class_I.DIRS, pp.cutoff=0.3)
+shiftsumsNN.Class_I.DIRS <- shiftSummaries(chain.NN.Class_I.DIRS, mcmc.NN.Class_I.DIRS, pp.cutoff=0.3)
+
+plotShiftSummaries(shiftsumsN1.Class_I.DIRS, lwd=2, single.plot=TRUE, label.pts=FALSE)
+plotShiftSummaries(shiftsumsNN.Class_I.DIRS, lwd=2, single.plot=TRUE, label.pts=FALSE)
+
+Bk <- qbeta(seq(0,1, length.out=5), 0.3,1)
+set.seed(1)
+ss.11.Class_I.DIRS <- mcmc.11.Class_I.DIRS$steppingstone(10000, chain.11.Class_I.DIRS, Bk, burnin=0.3, plot=FALSE)
+ss.N1.Class_I.DIRS <- mcmc.N1.Class_I.DIRS$steppingstone(10000, chain.N1.Class_I.DIRS, Bk, burnin=0.3, plot=FALSE)
+ss.NN.Class_I.DIRS <- mcmc.NN.Class_I.DIRS$steppingstone(10000, chain.NN.Class_I.DIRS, Bk, burnin=0.3, plot=FALSE)
+
+mlnL.Class_I.DIRS <- c("11"=ss.11.Class_I.DIRS$lnr, "N1"=ss.N1.Class_I.DIRS$lnr, "NN"=ss.NN.Class_I.DIRS$lnr)
+mlnL.Class_I.DIRS
+
+
+summary.NN.Class_I.DIRS <- summary(chain.NN.Class_I.DIRS)
+par(mfrow=c(3, 5) )
+plot(chain.NN.Class_I.DIRS, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chain.NN.Class_I.DIRS, burnin = 0.3, pp.cutoff = 0.3, cex = 0.5)
+
+
+
+#rDNA.45S_rDNA
+
+prior.11.rDNA.45S_rDNA <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_rDNA.45S_rDNA="dnorm",
+                                  dsb="fixed", dk="fixed", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_rDNA.45S_rDNA=list(mean=0.7, sd=0.15),
+                                  dtheta=list(mean=0, sd=1)),
+                       fixed=list(k=0, sb=numeric(0))
+)
+
+prior.N1.rDNA.45S_rDNA <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_rDNA.45S_rDNA="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dbeta_rDNA.45S_rDNA=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50),
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+prior.NN.rDNA.45S_rDNA <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_rDNA.45S_rDNA="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_rDNA.45S_rDNA=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50), 
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+D11.rDNA.45S_rDNA = list(alpha=2, sig2=2, beta_rDNA.45S_rDNA=0.1, k=1, theta=0.5, slide=1)
+DN1.rDNA.45S_rDNA = list(alpha=2, sig2=2, beta_rDNA.45S_rDNA=0.1, k=1, theta=2, slide=1)
+DNN.rDNA.45S_rDNA = list(alpha=2, sig2=2, beta_rDNA.45S_rDNA=0.3, k=c(1,1), theta=2, slide=1)
+
+pred.rDNA.45S_rDNA <- as.numeric(mydata[,14])
+dim(pred.rDNA.45S_rDNA) <- c(47,1)
+row.names(pred.rDNA.45S_rDNA) <- row.names(mydata)
+pred.rDNA.45S_rDNA
+colnames(pred.rDNA.45S_rDNA) <- c("rDNA.45S_rDNA")
+
+set.seed(111111)
+model.11.rDNA.45S_rDNA <- makeBayouModel(dat.2n ~ rDNA.45S_rDNA, rjpars = c(), 
+                           tree=tree, dat=dat.2n, pred=pred.rDNA.45S_rDNA, SE=0, prior=prior.11.rDNA.45S_rDNA, D=D11.rDNA.45S_rDNA)
+model.N1.rDNA.45S_rDNA <- makeBayouModel(dat.2n ~ rDNA.45S_rDNA, rjpars = c("theta"),  
+                           tree=tree, dat=dat.2n, pred=pred.rDNA.45S_rDNA, SE=0, prior=prior.N1.rDNA.45S_rDNA, D=DN1.rDNA.45S_rDNA)
+model.NN.rDNA.45S_rDNA <- makeBayouModel(dat.2n ~ rDNA.45S_rDNA, rjpars = c("theta", "rDNA.45S_rDNA"),  
+                           tree=tree, dat=dat.2n, pred=pred.rDNA.45S_rDNA, SE=0, prior=prior.NN.rDNA.45S_rDNA, D=DNN.rDNA.45S_rDNA)
+
+mcmc.11.rDNA.45S_rDNA <- bayou.makeMCMC(tree, dat.2n, pred=pred.rDNA.45S_rDNA, SE=0, model=model.11.rDNA.45S_rDNA$model, prior=prior.11.rDNA.45S_rDNA, startpar=model.11.rDNA.45S_rDNA$startpar, outname="model11_r001_rDNA.45S_rDNA", plot.freq=NULL)
+mcmc.N1.rDNA.45S_rDNA <- bayou.makeMCMC(tree, dat.2n, pred=pred.rDNA.45S_rDNA, SE=0, model=model.N1.rDNA.45S_rDNA$model, prior=prior.N1.rDNA.45S_rDNA, startpar=model.N1.rDNA.45S_rDNA$startpar, outname="modelN1_r001_rDNA.45S_rDNA", plot.freq=NULL)
+mcmc.NN.rDNA.45S_rDNA <- bayou.makeMCMC(tree, dat.2n, pred=pred.rDNA.45S_rDNA, SE=0, model=model.NN.rDNA.45S_rDNA$model, prior=prior.NN.rDNA.45S_rDNA, startpar=model.NN.rDNA.45S_rDNA$startpar, outname="modelNN_r001_rDNA.45S_rDNA", plot.freq=NULL)
+
+set.seed(1)
+mcmc.11.rDNA.45S_rDNA$run(1000000)
+mcmc.N1.rDNA.45S_rDNA$run(1000000)
+mcmc.NN.rDNA.45S_rDNA$run(1000000)
+
+chain.11.rDNA.45S_rDNA <- set.burnin(mcmc.11.rDNA.45S_rDNA$load(), 0.3)
+chain.N1.rDNA.45S_rDNA <- set.burnin(mcmc.N1.rDNA.45S_rDNA$load(), 0.3)
+chain.NN.rDNA.45S_rDNA <- set.burnin(mcmc.NN.rDNA.45S_rDNA$load(), 0.3)
+
+shiftsumsN1.rDNA.45S_rDNA <- shiftSummaries(chain.N1.rDNA.45S_rDNA, mcmc.N1.rDNA.45S_rDNA, pp.cutoff=0.3)
+shiftsumsNN.rDNA.45S_rDNA <- shiftSummaries(chain.NN.rDNA.45S_rDNA, mcmc.NN.rDNA.45S_rDNA, pp.cutoff=0.3)
+
+plotShiftSummaries(shiftsumsN1.rDNA.45S_rDNA, lwd=2, single.plot=TRUE, label.pts=FALSE)
+plotShiftSummaries(shiftsumsNN.rDNA.45S_rDNA, lwd=2, single.plot=TRUE, label.pts=FALSE)
+
+Bk <- qbeta(seq(0,1, length.out=5), 0.3,1)
+set.seed(1)
+ss.11.rDNA.45S_rDNA <- mcmc.11.rDNA.45S_rDNA$steppingstone(10000, chain.11.rDNA.45S_rDNA, Bk, burnin=0.3, plot=FALSE)
+ss.N1.rDNA.45S_rDNA <- mcmc.N1.rDNA.45S_rDNA$steppingstone(10000, chain.N1.rDNA.45S_rDNA, Bk, burnin=0.3, plot=FALSE)
+ss.NN.rDNA.45S_rDNA <- mcmc.NN.rDNA.45S_rDNA$steppingstone(10000, chain.NN.rDNA.45S_rDNA, Bk, burnin=0.3, plot=FALSE)
+
+mlnL.rDNA.45S_rDNA <- c("11"=ss.11.rDNA.45S_rDNA$lnr, "N1"=ss.N1.rDNA.45S_rDNA$lnr, "NN"=ss.NN.rDNA.45S_rDNA$lnr)
+mlnL.rDNA.45S_rDNA
+
+
+summary.NN.rDNA.45S_rDNA <- summary(chain.NN.rDNA.45S_rDNA)
+par(mfrow=c(3, 5) )
+plot(chain.NN.rDNA.45S_rDNA, auto.layout=FALSE)
+
+
+dev.off()
+plotSimmap.mcmc(chain.NN.rDNA.45S_rDNA, burnin = 0.3, pp.cutoff = 0.3, cex = 0.5)
+
+```
+

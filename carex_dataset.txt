@@ -1,0 +1,15 @@
+	"Row.names"	"SPECIES"	"Genome_size"	"Nb_karyotypes"	"Chromosome_2N_mean"	"rate_of_chromevol"	"All.organelle.plastid"	"All.repeat.mobile_element.Class_I.LINE"	"All.repeat.mobile_element.Class_I.LTR"	"All.repeat.mobile_element.Class_I.LTR.Ty1_copia"	"All.repeat.mobile_element.Class_I.LTR.Ty3_gypsy"	"All.repeat.mobile_element.Class_II.Subclass_1.TIR"	"All.repeat.mobile_element.Class_II.Subclass_2.Helitron"	"All.repeat.rDNA"	"All.repeat.satellite"	"Total"	"Unindentified.repeat"
+"Carex_laevigata"	"ME1"	"Carex_laevigata"	434.232	13	75.46	"Low"	17047	53	3379	15742	19102	16857	415	5940	2292	111188	30361
+"Carex_lepidocarpa_ssp_nevadensis"	"ME10"	"Carex_lepidocarpa_ssp_nevadensis"	361.86	1	68	"Low/High"	11599	58	2381	19970	10896	8189	463	6460	1172	82709	21521
+"Carex_capitata"	"ME11"	"Carex_capitata"	312.96	1	50	"Low"	6395	0	772	4872	2256	4419	329	1593	1717	40462	18109
+"Carex_maritima"	"ME13"	"Carex_maritima"	322.74	1	60	"High"	6363	0	2311	7325	3148	3068	443	2873	1376	56798	29891
+"Carex_magellanica_ssp_irrigua"	"ME15"	"Carex_magellanica_ssp_irrigua"	459.66	1	58	"Low"	17030	245	6984	20007	16416	16618	946	3436	608	116216	33926
+"Carex_leporina"	"ME18"	"Carex_leporina"	283.62	8	67.125	"Low/High"	6590	0	2073	4946	2764	5017	455	4383	441	59691	33022
+"Carex_extensa"	"ME19"	"Carex_extensa"	361.86	1	60	"Low"	22122	44	911	6418	5188	6679	259	2013	2796	59869	13439
+"Carex_furva"	"ME21"	"Carex_furva"	415.65	2	60.5	"Low"	21632	0	1698	10376	3800	3948	358	10452	456	121450	68730
+"Carex_lucennoiberica"	"ME23"	"Carex_lucennoiberica"	415.65	1	60	"Low"	29151	0	1762	6938	3178	4991	539	3935	607	103991	52890
+"Carex_nigra_ssp_intricata"	"ME25"	"Carex_nigra_ssp_intricata"	391.2	14	81.5	"High"	17742	186	3846	11644	11195	5971	723	4289	1359	84310	27355
+"Carex_helodes"	"ME3"	"Carex_helodes"	430.32	7	71.29	"Low"	17836	63	2890	13825	8464	15790	461	3996	606	92768	28837
+"Carex_sempervirens"	"ME5"	"Carex_sempervirens"	792.18	1	34	"Low"	11457	570	21161	58322	100790	29332	1000	2697	2506	279878	52043
+"Carex_caryophyllea"	"ME6"	"Carex_caryophyllea"	498.78	7	64.86	"High"	6873	286	4775	15298	14748	7566	1007	4901	1569	93831	36808
+"Carex_echinata_ssp_echinata"	"ME7"	"Carex_echinata_ssp_echinata"	371.64	4	54	"Low"	2455	0	2924	7627	8267	5090	524	2766	453	72194	42088
