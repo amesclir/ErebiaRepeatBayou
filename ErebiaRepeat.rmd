@@ -521,6 +521,92 @@ row.names(mydata)
 setdiff(tree$tip.label, row.names(mydata))
 tree <- drop.tip(tree,setdiff(tree$tip.label, row.names(mydata)))
 
+
+#Class_II.Subclass_2.Helitron
+
+prior.11.Class_II.Subclass_2.Helitron <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_II.Subclass_2.Helitron="dnorm",
+                                  dsb="fixed", dk="fixed", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_II.Subclass_2.Helitron=list(mean=0.7, sd=0.15),
+                                  dtheta=list(mean=0, sd=1)),
+                       fixed=list(k=0, sb=numeric(0))
+)
+
+prior.N1.Class_II.Subclass_2.Helitron <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_II.Subclass_2.Helitron="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dbeta_Class_II.Subclass_2.Helitron=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50),
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+prior.NN.Class_II.Subclass_2.Helitron <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_II.Subclass_2.Helitron="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_II.Subclass_2.Helitron=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50), 
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+D11.Class_II.Subclass_2.Helitron = list(alpha=2, sig2=2, beta_Class_II.Subclass_2.Helitron=0.1, k=1, theta=0.5, slide=1)
+DN1.Class_II.Subclass_2.Helitron = list(alpha=2, sig2=2, beta_Class_II.Subclass_2.Helitron=0.1, k=1, theta=2, slide=1)
+DNN.Class_II.Subclass_2.Helitron = list(alpha=2, sig2=2, beta_Class_II.Subclass_2.Helitron=0.3, k=c(1,1), theta=2, slide=1)
+
+pred.Class_II.Subclass_2.Helitron <- as.numeric(mydata[,12])
+dim(pred.Class_II.Subclass_2.Helitron) <- c(47,1)
+row.names(pred.Class_II.Subclass_2.Helitron) <- row.names(mydata)
+pred.Class_II.Subclass_2.Helitron
+colnames(pred.Class_II.Subclass_2.Helitron) <- c("Class_II.Subclass_2.Helitron")
+
+set.seed(1111111)
+model.11.Class_II.Subclass_2.Helitron <- makeBayouModel(dat.2n ~ Class_II.Subclass_2.Helitron, rjpars = c(), 
+                           tree=tree, dat=dat.2n, pred=pred.Class_II.Subclass_2.Helitron, SE=0, prior=prior.11.Class_II.Subclass_2.Helitron, D=D11.Class_II.Subclass_2.Helitron)
+model.N1.Class_II.Subclass_2.Helitron <- makeBayouModel(dat.2n ~ Class_II.Subclass_2.Helitron, rjpars = c("theta"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_II.Subclass_2.Helitron, SE=0, prior=prior.N1.Class_II.Subclass_2.Helitron, D=DN1.Class_II.Subclass_2.Helitron)
+model.NN.Class_II.Subclass_2.Helitron <- makeBayouModel(dat.2n ~ Class_II.Subclass_2.Helitron, rjpars = c("theta", "Class_II.Subclass_2.Helitron"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_II.Subclass_2.Helitron, SE=0, prior=prior.NN.Class_II.Subclass_2.Helitron, D=DNN.Class_II.Subclass_2.Helitron)
+
+mcmc.11.Class_II.Subclass_2.Helitron <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_II.Subclass_2.Helitron, SE=0, model=model.11.Class_II.Subclass_2.Helitron$model, prior=prior.11.Class_II.Subclass_2.Helitron, startpar=model.11.Class_II.Subclass_2.Helitron$startpar, outname="model11_r001_Class_II.Subclass_2.Helitron", plot.freq=NULL)
+mcmc.N1.Class_II.Subclass_2.Helitron <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_II.Subclass_2.Helitron, SE=0, model=model.N1.Class_II.Subclass_2.Helitron$model, prior=prior.N1.Class_II.Subclass_2.Helitron, startpar=model.N1.Class_II.Subclass_2.Helitron$startpar, outname="modelN1_r001_Class_II.Subclass_2.Helitron", plot.freq=NULL)
+mcmc.NN.Class_II.Subclass_2.Helitron <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_II.Subclass_2.Helitron, SE=0, model=model.NN.Class_II.Subclass_2.Helitron$model, prior=prior.NN.Class_II.Subclass_2.Helitron, startpar=model.NN.Class_II.Subclass_2.Helitron$startpar, outname="modelNN_r001_Class_II.Subclass_2.Helitron", plot.freq=NULL)
+
+set.seed(1)
+mcmc.11.Class_II.Subclass_2.Helitron$run(1000000)
+mcmc.N1.Class_II.Subclass_2.Helitron$run(1000000)
+mcmc.NN.Class_II.Subclass_2.Helitron$run(1000000)
+
+chain.11.Class_II.Subclass_2.Helitron <- set.burnin(mcmc.11.Class_II.Subclass_2.Helitron$load(), 0.3)
+chain.N1.Class_II.Subclass_2.Helitron <- set.burnin(mcmc.N1.Class_II.Subclass_2.Helitron$load(), 0.3)
+chain.NN.Class_II.Subclass_2.Helitron <- set.burnin(mcmc.NN.Class_II.Subclass_2.Helitron$load(), 0.3)
+
+shiftsumsN1.Class_II.Subclass_2.Helitron <- shiftSummaries(chain.N1.Class_II.Subclass_2.Helitron, mcmc.N1.Class_II.Subclass_2.Helitron, pp.cutoff=0.17)
+shiftsumsNN.Class_II.Subclass_2.Helitron <- shiftSummaries(chain.NN.Class_II.Subclass_2.Helitron, mcmc.NN.Class_II.Subclass_2.Helitron, pp.cutoff=0.3)
+
+plotShiftSummaries(shiftsumsN1.Class_II.Subclass_2.Helitron, lwd=2, single.plot=TRUE, label.pts=FALSE)
+plotShiftSummaries(shiftsumsNN.Class_II.Subclass_2.Helitron, lwd=2, single.plot=TRUE, label.pts=FALSE)
+
+Bk <- qbeta(seq(0,1, length.out=5), 0.3,1)
+set.seed(1)
+ss.11.Class_II.Subclass_2.Helitron <- mcmc.11.Class_II.Subclass_2.Helitron$steppingstone(10000, chain.11.Class_II.Subclass_2.Helitron, Bk, burnin=0.3, plot=FALSE)
+ss.N1.Class_II.Subclass_2.Helitron <- mcmc.N1.Class_II.Subclass_2.Helitron$steppingstone(10000, chain.N1.Class_II.Subclass_2.Helitron, Bk, burnin=0.3, plot=FALSE)
+ss.NN.Class_II.Subclass_2.Helitron <- mcmc.NN.Class_II.Subclass_2.Helitron$steppingstone(10000, chain.NN.Class_II.Subclass_2.Helitron, Bk, burnin=0.3, plot=FALSE)
+
+mlnL.Class_II.Subclass_2.Helitron <- c("11"=ss.11.Class_II.Subclass_2.Helitron$lnr, "N1"=ss.N1.Class_II.Subclass_2.Helitron$lnr, "NN"=ss.NN.Class_II.Subclass_2.Helitron$lnr)
+mlnL.Class_II.Subclass_2.Helitron
+
+
+summary.N1.Class_II.Subclass_2.Helitron <- summary(chain.N1.Class_II.Subclass_2.Helitron)
+#par(mfrow=c(3, 5) )
+#plot(chain.NN.Class_II.Subclass_2.Helitron, auto.layout=FALSE)
+
+
+#dev.off()
+plotSimmap.mcmc(chain.N1.rDNA.45S_rDNA, burnin = 0.3, pp.cutoff = 0.17, cex = 0.5)
+
 #Class_I.DIRS
 prior.11.Class_I.DIRS <- make.prior(tree, plot.prior = FALSE, 
                        dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.DIRS="dnorm",
@@ -581,7 +667,7 @@ chain.11.Class_I.DIRS <- set.burnin(mcmc.11.Class_I.DIRS$load(), 0.3)
 chain.N1.Class_I.DIRS <- set.burnin(mcmc.N1.Class_I.DIRS$load(), 0.3)
 chain.NN.Class_I.DIRS <- set.burnin(mcmc.NN.Class_I.DIRS$load(), 0.3)
 
-shiftsumsN1.Class_I.DIRS <- shiftSummaries(chain.N1.Class_I.DIRS, mcmc.N1.Class_I.DIRS, pp.cutoff=0.3)
+shiftsumsN1.Class_I.DIRS <- shiftSummaries(chain.N1.Class_I.DIRS, mcmc.N1.Class_I.DIRS, pp.cutoff=0.168)
 shiftsumsNN.Class_I.DIRS <- shiftSummaries(chain.NN.Class_I.DIRS, mcmc.NN.Class_I.DIRS, pp.cutoff=0.3)
 
 plotShiftSummaries(shiftsumsN1.Class_I.DIRS, lwd=2, single.plot=TRUE, label.pts=FALSE)
@@ -597,13 +683,101 @@ mlnL.Class_I.DIRS <- c("11"=ss.11.Class_I.DIRS$lnr, "N1"=ss.N1.Class_I.DIRS$lnr,
 mlnL.Class_I.DIRS
 
 
-summary.NN.Class_I.DIRS <- summary(chain.NN.Class_I.DIRS)
-par(mfrow=c(3, 5) )
-plot(chain.NN.Class_I.DIRS, auto.layout=FALSE)
+summary.N1.Class_I.DIRS <- summary(chain.N1.Class_I.DIRS)
+#par(mfrow=c(3, 5) )
+#plot(chain.NN.Class_I.DIRS, auto.layout=FALSE)
 
 
-dev.off()
-plotSimmap.mcmc(chain.NN.Class_I.DIRS, burnin = 0.3, pp.cutoff = 0.3, cex = 0.5)
+#dev.off()
+plotSimmap.mcmc(chain.N1.Class_I.DIRS, burnin = 0.3, pp.cutoff = 0.169, cex = 0.5)
+
+
+
+#Class_I.LTR
+prior.11.Class_I.LTR <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.LTR="dnorm",
+                                  dsb="fixed", dk="fixed", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_I.LTR=list(mean=0.7, sd=0.15),
+                                  dtheta=list(mean=0, sd=1)),
+                       fixed=list(k=0, sb=numeric(0))
+)
+
+prior.N1.Class_I.LTR <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.LTR="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dbeta_Class_I.LTR=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50),
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+prior.NN.Class_I.LTR <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.LTR="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_I.LTR=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50), 
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+D11.Class_I.LTR = list(alpha=2, sig2=2, beta_Class_I.LTR=0.1, k=1, theta=0.5, slide=1)
+DN1.Class_I.LTR = list(alpha=2, sig2=2, beta_Class_I.LTR=0.1, k=1, theta=2, slide=1)
+DNN.Class_I.LTR = list(alpha=2, sig2=2, beta_Class_I.LTR=0.3, k=c(1,1), theta=2, slide=1)
+
+pred.Class_I.LTR <- as.numeric(mydata[,7])
+dim(pred.Class_I.LTR) <- c(47,1)
+row.names(pred.Class_I.LTR) <- row.names(mydata)
+pred.Class_I.LTR
+colnames(pred.Class_I.LTR) <- c("Class_I.LTR")
+
+set.seed(1)
+model.11.Class_I.LTR <- makeBayouModel(dat.2n ~ Class_I.LTR, rjpars = c(), 
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.LTR, SE=0, prior=prior.11.Class_I.LTR, D=D11.Class_I.LTR)
+model.N1.Class_I.LTR <- makeBayouModel(dat.2n ~ Class_I.LTR, rjpars = c("theta"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.LTR, SE=0, prior=prior.N1.Class_I.LTR, D=DN1.Class_I.LTR)
+model.NN.Class_I.LTR <- makeBayouModel(dat.2n ~ Class_I.LTR, rjpars = c("theta", "Class_I.LTR"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.LTR, SE=0, prior=prior.NN.Class_I.LTR, D=DNN.Class_I.LTR)
+
+mcmc.11.Class_I.LTR <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.LTR, SE=0, model=model.11.Class_I.LTR$model, prior=prior.11.Class_I.LTR, startpar=model.11.Class_I.LTR$startpar, outname="model11_r001_Class_I.LTR", plot.freq=NULL)
+mcmc.N1.Class_I.LTR <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.LTR, SE=0, model=model.N1.Class_I.LTR$model, prior=prior.N1.Class_I.LTR, startpar=model.N1.Class_I.LTR$startpar, outname="modelN1_r001_Class_I.LTR", plot.freq=NULL)
+mcmc.NN.Class_I.LTR <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.LTR, SE=0, model=model.NN.Class_I.LTR$model, prior=prior.NN.Class_I.LTR, startpar=model.NN.Class_I.LTR$startpar, outname="modelNN_r001_Class_I.LTR", plot.freq=NULL)
+
+set.seed(111)
+mcmc.11.Class_I.LTR$run(1000000)
+mcmc.N1.Class_I.LTR$run(1000000)
+mcmc.NN.Class_I.LTR$run(1000000)
+
+chain.11.Class_I.LTR <- set.burnin(mcmc.11.Class_I.LTR$load(), 0.3)
+chain.N1.Class_I.LTR <- set.burnin(mcmc.N1.Class_I.LTR$load(), 0.3)
+chain.NN.Class_I.LTR <- set.burnin(mcmc.NN.Class_I.LTR$load(), 0.3)
+
+shiftsumsN1.Class_I.LTR <- shiftSummaries(chain.N1.Class_I.LTR, mcmc.N1.Class_I.LTR, pp.cutoff=0.3)
+shiftsumsNN.Class_I.LTR <- shiftSummaries(chain.NN.Class_I.LTR, mcmc.NN.Class_I.LTR, pp.cutoff=0.3)
+
+plotShiftSummaries(shiftsumsN1.Class_I.LTR, lwd=2, single.plot=TRUE, label.pts=FALSE)
+plotShiftSummaries(shiftsumsNN.Class_I.LTR, lwd=2, single.plot=TRUE, label.pts=FALSE)
+
+Bk <- qbeta(seq(0,1, length.out=5), 0.3,1)
+set.seed(1111)
+ss.11.Class_I.LTR <- mcmc.11.Class_I.LTR$steppingstone(10000, chain.11.Class_I.LTR, Bk, burnin=0.3, plot=FALSE)
+ss.N1.Class_I.LTR <- mcmc.N1.Class_I.LTR$steppingstone(10000, chain.N1.Class_I.LTR, Bk, burnin=0.3, plot=FALSE)
+ss.NN.Class_I.LTR <- mcmc.NN.Class_I.LTR$steppingstone(10000, chain.NN.Class_I.LTR, Bk, burnin=0.3, plot=FALSE)
+
+mlnL.Class_I.LTR <- c("11"=ss.11.Class_I.LTR$lnr, "N1"=ss.N1.Class_I.LTR$lnr, "NN"=ss.NN.Class_I.LTR$lnr)
+mlnL.Class_I.LTR
+
+
+summary.NN.Class_I.DIRS <- summary(chain.NN.Class_I.LTR)
+#par(mfrow=c(3, 5) )
+#plot(chain.NN.Class_I.LTR, auto.layout=FALSE)
+
+
+#dev.off()
+plotSimmap.mcmc(chain.NN.Class_I.LTR, burnin = 0.3, pp.cutoff = 0.3, cex = 0.5)
+
+
 
 
 
@@ -668,7 +842,7 @@ chain.11.rDNA.45S_rDNA <- set.burnin(mcmc.11.rDNA.45S_rDNA$load(), 0.3)
 chain.N1.rDNA.45S_rDNA <- set.burnin(mcmc.N1.rDNA.45S_rDNA$load(), 0.3)
 chain.NN.rDNA.45S_rDNA <- set.burnin(mcmc.NN.rDNA.45S_rDNA$load(), 0.3)
 
-shiftsumsN1.rDNA.45S_rDNA <- shiftSummaries(chain.N1.rDNA.45S_rDNA, mcmc.N1.rDNA.45S_rDNA, pp.cutoff=0.3)
+shiftsumsN1.rDNA.45S_rDNA <- shiftSummaries(chain.N1.rDNA.45S_rDNA, mcmc.N1.rDNA.45S_rDNA, pp.cutoff=0.17)
 shiftsumsNN.rDNA.45S_rDNA <- shiftSummaries(chain.NN.rDNA.45S_rDNA, mcmc.NN.rDNA.45S_rDNA, pp.cutoff=0.3)
 
 plotShiftSummaries(shiftsumsN1.rDNA.45S_rDNA, lwd=2, single.plot=TRUE, label.pts=FALSE)
@@ -684,13 +858,277 @@ mlnL.rDNA.45S_rDNA <- c("11"=ss.11.rDNA.45S_rDNA$lnr, "N1"=ss.N1.rDNA.45S_rDNA$l
 mlnL.rDNA.45S_rDNA
 
 
-summary.NN.rDNA.45S_rDNA <- summary(chain.NN.rDNA.45S_rDNA)
-par(mfrow=c(3, 5) )
-plot(chain.NN.rDNA.45S_rDNA, auto.layout=FALSE)
+summary.N1.rDNA.45S_rDNA <- summary(chain.N1.rDNA.45S_rDNA)
+#par(mfrow=c(3, 5) )
+#plot(chain.NN.rDNA.45S_rDNA, auto.layout=FALSE)
 
 
-dev.off()
-plotSimmap.mcmc(chain.NN.rDNA.45S_rDNA, burnin = 0.3, pp.cutoff = 0.3, cex = 0.5)
+#dev.off()
+plotSimmap.mcmc(chain.N1.rDNA.45S_rDNA, burnin = 0.3, pp.cutoff = 0.17, cex = 0.5)
+
+
+
+#satellite
+
+prior.11.satellite <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_satellite="dnorm",
+                                  dsb="fixed", dk="fixed", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_satellite=list(mean=0.7, sd=0.15),
+                                  dtheta=list(mean=0, sd=1)),
+                       fixed=list(k=0, sb=numeric(0))
+)
+
+prior.N1.satellite <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_satellite="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dbeta_satellite=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50),
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+prior.NN.satellite <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_satellite="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_satellite=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50), 
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+D11.satellite = list(alpha=2, sig2=2, beta_satellite=0.1, k=1, theta=0.5, slide=1)
+DN1.satellite = list(alpha=2, sig2=2, beta_satellite=0.1, k=1, theta=2, slide=1)
+DNN.satellite = list(alpha=2, sig2=2, beta_satellite=0.3, k=c(1,1), theta=2, slide=1)
+
+pred.satellite <- as.numeric(mydata[,15])
+dim(pred.satellite) <- c(47,1)
+row.names(pred.satellite) <- row.names(mydata)
+pred.satellite
+colnames(pred.satellite) <- c("satellite")
+
+set.seed(111111)
+model.11.satellite <- makeBayouModel(dat.2n ~ satellite, rjpars = c(), 
+                           tree=tree, dat=dat.2n, pred=pred.satellite, SE=0, prior=prior.11.satellite, D=D11.satellite)
+model.N1.satellite <- makeBayouModel(dat.2n ~ satellite, rjpars = c("theta"),  
+                           tree=tree, dat=dat.2n, pred=pred.satellite, SE=0, prior=prior.N1.satellite, D=DN1.satellite)
+model.NN.satellite <- makeBayouModel(dat.2n ~ satellite, rjpars = c("theta", "satellite"),  
+                           tree=tree, dat=dat.2n, pred=pred.satellite, SE=0, prior=prior.NN.satellite, D=DNN.satellite)
+
+mcmc.11.satellite <- bayou.makeMCMC(tree, dat.2n, pred=pred.satellite, SE=0, model=model.11.satellite$model, prior=prior.11.satellite, startpar=model.11.satellite$startpar, outname="model11_r001_satellite", plot.freq=NULL)
+mcmc.N1.satellite <- bayou.makeMCMC(tree, dat.2n, pred=pred.satellite, SE=0, model=model.N1.satellite$model, prior=prior.N1.satellite, startpar=model.N1.satellite$startpar, outname="modelN1_r001_satellite", plot.freq=NULL)
+mcmc.NN.satellite <- bayou.makeMCMC(tree, dat.2n, pred=pred.satellite, SE=0, model=model.NN.satellite$model, prior=prior.NN.satellite, startpar=model.NN.satellite$startpar, outname="modelNN_r001_satellite", plot.freq=NULL)
+
+set.seed(1)
+mcmc.11.satellite$run(1000000)
+mcmc.N1.satellite$run(1000000)
+mcmc.NN.satellite$run(1000000)
+
+chain.11.satellite <- set.burnin(mcmc.11.satellite$load(), 0.3)
+chain.N1.satellite <- set.burnin(mcmc.N1.satellite$load(), 0.3)
+chain.NN.satellite <- set.burnin(mcmc.NN.satellite$load(), 0.3)
+
+shiftsumsN1.satellite <- shiftSummaries(chain.N1.satellite, mcmc.N1.satellite, pp.cutoff=0.17)
+shiftsumsNN.satellite <- shiftSummaries(chain.NN.satellite, mcmc.NN.satellite, pp.cutoff=0.3)
+
+plotShiftSummaries(shiftsumsN1.satellite, lwd=2, single.plot=TRUE, label.pts=FALSE)
+plotShiftSummaries(shiftsumsNN.satellite, lwd=2, single.plot=TRUE, label.pts=FALSE)
+
+Bk <- qbeta(seq(0,1, length.out=5), 0.3,1)
+set.seed(1)
+ss.11.satellite <- mcmc.11.satellite$steppingstone(10000, chain.11.satellite, Bk, burnin=0.3, plot=FALSE)
+ss.N1.satellite <- mcmc.N1.satellite$steppingstone(10000, chain.N1.satellite, Bk, burnin=0.3, plot=FALSE)
+ss.NN.satellite <- mcmc.NN.satellite$steppingstone(10000, chain.NN.satellite, Bk, burnin=0.3, plot=FALSE)
+
+mlnL.satellite <- c("11"=ss.11.satellite$lnr, "N1"=ss.N1.satellite$lnr, "NN"=ss.NN.satellite$lnr)
+mlnL.satellite
+
+
+summary.N1.satellite <- summary(chain.N1.satellite)
+#par(mfrow=c(3, 5) )
+#plot(chain.NN.satellite, auto.layout=FALSE)
+
+
+#dev.off()
+plotSimmap.mcmc(chain.N1.satellite, burnin = 0.3, pp.cutoff = 0.17, cex = 0.5)
+
+
+
+#Class_I.LINE
+
+prior.11.Class_I.LINE <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.LINE="dnorm",
+                                  dsb="fixed", dk="fixed", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_I.LINE=list(mean=0.7, sd=0.15),
+                                  dtheta=list(mean=0, sd=1)),
+                       fixed=list(k=0, sb=numeric(0))
+)
+
+prior.N1.Class_I.LINE <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.LINE="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dbeta_Class_I.LINE=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50),
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+prior.NN.Class_I.LINE <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_I.LINE="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_I.LINE=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50), 
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+D11.Class_I.LINE = list(alpha=2, sig2=2, beta_Class_I.LINE=0.1, k=1, theta=0.5, slide=1)
+DN1.Class_I.LINE = list(alpha=2, sig2=2, beta_Class_I.LINE=0.1, k=1, theta=2, slide=1)
+DNN.Class_I.LINE = list(alpha=2, sig2=2, beta_Class_I.LINE=0.3, k=c(1,1), theta=2, slide=1)
+
+pred.Class_I.LINE <- as.numeric(mydata[,6])
+dim(pred.Class_I.LINE) <- c(47,1)
+row.names(pred.Class_I.LINE) <- row.names(mydata)
+pred.Class_I.LINE
+colnames(pred.Class_I.LINE) <- c("Class_I.LINE")
+
+set.seed(111111)
+model.11.Class_I.LINE <- makeBayouModel(dat.2n ~ Class_I.LINE, rjpars = c(), 
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.LINE, SE=0, prior=prior.11.Class_I.LINE, D=D11.Class_I.LINE)
+model.N1.Class_I.LINE <- makeBayouModel(dat.2n ~ Class_I.LINE, rjpars = c("theta"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.LINE, SE=0, prior=prior.N1.Class_I.LINE, D=DN1.Class_I.LINE)
+model.NN.Class_I.LINE <- makeBayouModel(dat.2n ~ Class_I.LINE, rjpars = c("theta", "Class_I.LINE"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_I.LINE, SE=0, prior=prior.NN.Class_I.LINE, D=DNN.Class_I.LINE)
+
+mcmc.11.Class_I.LINE <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.LINE, SE=0, model=model.11.Class_I.LINE$model, prior=prior.11.Class_I.LINE, startpar=model.11.Class_I.LINE$startpar, outname="model11_r001_Class_I.LINE", plot.freq=NULL)
+mcmc.N1.Class_I.LINE <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.LINE, SE=0, model=model.N1.Class_I.LINE$model, prior=prior.N1.Class_I.LINE, startpar=model.N1.Class_I.LINE$startpar, outname="modelN1_r001_Class_I.LINE", plot.freq=NULL)
+mcmc.NN.Class_I.LINE <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_I.LINE, SE=0, model=model.NN.Class_I.LINE$model, prior=prior.NN.Class_I.LINE, startpar=model.NN.Class_I.LINE$startpar, outname="modelNN_r001_Class_I.LINE", plot.freq=NULL)
+
+set.seed(1)
+mcmc.11.Class_I.LINE$run(1000000)
+mcmc.N1.Class_I.LINE$run(1000000)
+mcmc.NN.Class_I.LINE$run(1000000)
+
+chain.11.Class_I.LINE <- set.burnin(mcmc.11.Class_I.LINE$load(), 0.3)
+chain.N1.Class_I.LINE <- set.burnin(mcmc.N1.Class_I.LINE$load(), 0.3)
+chain.NN.Class_I.LINE <- set.burnin(mcmc.NN.Class_I.LINE$load(), 0.3)
+
+shiftsumsN1.Class_I.LINE <- shiftSummaries(chain.N1.Class_I.LINE, mcmc.N1.Class_I.LINE, pp.cutoff=0.17)
+shiftsumsNN.Class_I.LINE <- shiftSummaries(chain.NN.Class_I.LINE, mcmc.NN.Class_I.LINE, pp.cutoff=0.3)
+
+plotShiftSummaries(shiftsumsN1.Class_I.LINE, lwd=2, single.plot=TRUE, label.pts=FALSE)
+plotShiftSummaries(shiftsumsNN.Class_I.LINE, lwd=2, single.plot=TRUE, label.pts=FALSE)
+
+Bk <- qbeta(seq(0,1, length.out=5), 0.3,1)
+set.seed(1)
+ss.11.Class_I.LINE <- mcmc.11.Class_I.LINE$steppingstone(10000, chain.11.Class_I.LINE, Bk, burnin=0.3, plot=FALSE)
+ss.N1.Class_I.LINE <- mcmc.N1.Class_I.LINE$steppingstone(10000, chain.N1.Class_I.LINE, Bk, burnin=0.3, plot=FALSE)
+ss.NN.Class_I.LINE <- mcmc.NN.Class_I.LINE$steppingstone(10000, chain.NN.Class_I.LINE, Bk, burnin=0.3, plot=FALSE)
+
+mlnL.Class_I.LINE <- c("11"=ss.11.Class_I.LINE$lnr, "N1"=ss.N1.Class_I.LINE$lnr, "NN"=ss.NN.Class_I.LINE$lnr)
+mlnL.Class_I.LINE
+
+
+summary.N1.Class_I.LINE <- summary(chain.N1.Class_I.LINE)
+#par(mfrow=c(3, 5) )
+#plot(chain.NN.Class_I.LINE, auto.layout=FALSE)
+
+
+#dev.off()
+plotSimmap.mcmc(chain.N1.Class_I.LINE, burnin = 0.3, pp.cutoff = 0.17, cex = 0.5)
+
+
+
+
+
+
+#Class_II.Subclass_2.Maverick
+
+prior.11.Class_II.Subclass_2.Maverick <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_II.Subclass_2.Maverick="dnorm",
+                                  dsb="fixed", dk="fixed", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_II.Subclass_2.Maverick=list(mean=0.7, sd=0.15),
+                                  dtheta=list(mean=0, sd=1)),
+                       fixed=list(k=0, sb=numeric(0))
+)
+
+prior.N1.Class_II.Subclass_2.Maverick <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_II.Subclass_2.Maverick="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dbeta_Class_II.Subclass_2.Maverick=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50),
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+prior.NN.Class_II.Subclass_2.Maverick <- make.prior(tree, plot.prior = FALSE, 
+                       dists=list(dalpha="dhalfcauchy", dsig2="dhalfcauchy", dbeta_Class_II.Subclass_2.Maverick="dnorm",
+                                  dsb="dsb", dk="cdpois", dtheta="dnorm"), 
+                       param=list(dalpha=list(scale=0.1), dsig2=list(scale=0.1),
+                                  dbeta_Class_II.Subclass_2.Maverick=list(mean=0.7, sd=0.15),
+                                  dk=list(lambda=10, kmax=50), 
+                                  dtheta=list(mean=0, sd=1))
+)
+
+
+D11.Class_II.Subclass_2.Maverick = list(alpha=2, sig2=2, beta_Class_II.Subclass_2.Maverick=0.1, k=1, theta=0.5, slide=1)
+DN1.Class_II.Subclass_2.Maverick = list(alpha=2, sig2=2, beta_Class_II.Subclass_2.Maverick=0.1, k=1, theta=2, slide=1)
+DNN.Class_II.Subclass_2.Maverick = list(alpha=2, sig2=2, beta_Class_II.Subclass_2.Maverick=0.3, k=c(1,1), theta=2, slide=1)
+
+pred.Class_II.Subclass_2.Maverick <- as.numeric(mydata[,13])
+dim(pred.Class_II.Subclass_2.Maverick) <- c(47,1)
+row.names(pred.Class_II.Subclass_2.Maverick) <- row.names(mydata)
+pred.Class_II.Subclass_2.Maverick
+colnames(pred.Class_II.Subclass_2.Maverick) <- c("Class_II.Subclass_2.Maverick")
+
+set.seed(1111111)
+model.11.Class_II.Subclass_2.Maverick <- makeBayouModel(dat.2n ~ Class_II.Subclass_2.Maverick, rjpars = c(), 
+                           tree=tree, dat=dat.2n, pred=pred.Class_II.Subclass_2.Maverick, SE=0, prior=prior.11.Class_II.Subclass_2.Maverick, D=D11.Class_II.Subclass_2.Maverick)
+model.N1.Class_II.Subclass_2.Maverick <- makeBayouModel(dat.2n ~ Class_II.Subclass_2.Maverick, rjpars = c("theta"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_II.Subclass_2.Maverick, SE=0, prior=prior.N1.Class_II.Subclass_2.Maverick, D=DN1.Class_II.Subclass_2.Maverick)
+model.NN.Class_II.Subclass_2.Maverick <- makeBayouModel(dat.2n ~ Class_II.Subclass_2.Maverick, rjpars = c("theta", "Class_II.Subclass_2.Maverick"),  
+                           tree=tree, dat=dat.2n, pred=pred.Class_II.Subclass_2.Maverick, SE=0, prior=prior.NN.Class_II.Subclass_2.Maverick, D=DNN.Class_II.Subclass_2.Maverick)
+
+mcmc.11.Class_II.Subclass_2.Maverick <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_II.Subclass_2.Maverick, SE=0, model=model.11.Class_II.Subclass_2.Maverick$model, prior=prior.11.Class_II.Subclass_2.Maverick, startpar=model.11.Class_II.Subclass_2.Maverick$startpar, outname="model11_r001_Class_II.Subclass_2.Maverick", plot.freq=NULL)
+mcmc.N1.Class_II.Subclass_2.Maverick <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_II.Subclass_2.Maverick, SE=0, model=model.N1.Class_II.Subclass_2.Maverick$model, prior=prior.N1.Class_II.Subclass_2.Maverick, startpar=model.N1.Class_II.Subclass_2.Maverick$startpar, outname="modelN1_r001_Class_II.Subclass_2.Maverick", plot.freq=NULL)
+mcmc.NN.Class_II.Subclass_2.Maverick <- bayou.makeMCMC(tree, dat.2n, pred=pred.Class_II.Subclass_2.Maverick, SE=0, model=model.NN.Class_II.Subclass_2.Maverick$model, prior=prior.NN.Class_II.Subclass_2.Maverick, startpar=model.NN.Class_II.Subclass_2.Maverick$startpar, outname="modelNN_r001_Class_II.Subclass_2.Maverick", plot.freq=NULL)
+
+set.seed(1)
+mcmc.11.Class_II.Subclass_2.Maverick$run(1000000)
+mcmc.N1.Class_II.Subclass_2.Maverick$run(1000000)
+mcmc.NN.Class_II.Subclass_2.Maverick$run(1000000)
+
+chain.11.Class_II.Subclass_2.Maverick <- set.burnin(mcmc.11.Class_II.Subclass_2.Maverick$load(), 0.3)
+chain.N1.Class_II.Subclass_2.Maverick <- set.burnin(mcmc.N1.Class_II.Subclass_2.Maverick$load(), 0.3)
+chain.NN.Class_II.Subclass_2.Maverick <- set.burnin(mcmc.NN.Class_II.Subclass_2.Maverick$load(), 0.3)
+
+shiftsumsN1.Class_II.Subclass_2.Maverick <- shiftSummaries(chain.N1.Class_II.Subclass_2.Maverick, mcmc.N1.Class_II.Subclass_2.Maverick, pp.cutoff=0.17)
+shiftsumsNN.Class_II.Subclass_2.Maverick <- shiftSummaries(chain.NN.Class_II.Subclass_2.Maverick, mcmc.NN.Class_II.Subclass_2.Maverick, pp.cutoff=0.3)
+
+plotShiftSummaries(shiftsumsN1.Class_II.Subclass_2.Maverick, lwd=2, single.plot=TRUE, label.pts=FALSE)
+plotShiftSummaries(shiftsumsNN.Class_II.Subclass_2.Maverick, lwd=2, single.plot=TRUE, label.pts=FALSE)
+
+Bk <- qbeta(seq(0,1, length.out=5), 0.3,1)
+set.seed(1)
+ss.11.Class_II.Subclass_2.Maverick <- mcmc.11.Class_II.Subclass_2.Maverick$steppingstone(10000, chain.11.Class_II.Subclass_2.Maverick, Bk, burnin=0.3, plot=FALSE)
+ss.N1.Class_II.Subclass_2.Maverick <- mcmc.N1.Class_II.Subclass_2.Maverick$steppingstone(10000, chain.N1.Class_II.Subclass_2.Maverick, Bk, burnin=0.3, plot=FALSE)
+ss.NN.Class_II.Subclass_2.Maverick <- mcmc.NN.Class_II.Subclass_2.Maverick$steppingstone(10000, chain.NN.Class_II.Subclass_2.Maverick, Bk, burnin=0.3, plot=FALSE)
+
+mlnL.Class_II.Subclass_2.Maverick <- c("11"=ss.11.Class_II.Subclass_2.Maverick$lnr, "N1"=ss.N1.Class_II.Subclass_2.Maverick$lnr, "NN"=ss.NN.Class_II.Subclass_2.Maverick$lnr)
+mlnL.Class_II.Subclass_2.Maverick
+
+
+summary.N1.Class_II.Subclass_2.Maverick <- summary(chain.N1.Class_II.Subclass_2.Maverick)
+#par(mfrow=c(3, 5) )
+#plot(chain.NN.Class_II.Subclass_2.Maverick, auto.layout=FALSE)
+
+
+#dev.off()
+plotSimmap.mcmc(chain.N1.rDNA.45S_rDNA, burnin = 0.3, pp.cutoff = 0.17, cex = 0.5)
 
 ```
 
