@@ -1481,3 +1481,62 @@ plotSimmap.mcmc(chain.N1.Class_I.LTR.Ty3_gypsy, burnin = 0.3, pp.cutoff = 0.17, 
 
 ```
 
+```{r}
+library(slouch)
+mydata2 <- mydata
+mydata2<- mydata2[tree$tip.label,]
+
+
+model0 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N)
+
+summary(model0)
+
+model1 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_I.DIRS)
+
+summary(model1)
+
+model2 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_I.LINE)
+
+summary(model2)
+
+model3 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_I.LTR)
+
+summary(model3)
+
+
+model4 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_I.LTR.Bel.Pao)
+
+summary(model4)
+
+model5 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_I.LTR.Ty1_copia)
+
+summary(model5)
+
+model6 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_I.LTR.Ty3_gypsy)
+
+summary(model6)
+
+
+model7 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_I.Penelope)
+
+summary(model7)
+
+
+model8 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_II.Subclass_2.Helitron)
+
+summary(model8)
+
+model9 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.mobile_element.Class_II.Subclass_2.Maverick)
+
+summary(model9)
+
+model10 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.rDNA.45S_rDNA)
+
+summary(model10)
+
+model11 <- slouch.fit(phy = tree, species = mydata2$species, response = mydata2$Chromosome_2N, random.cov = mydata2$All.repeat.satellite)
+
+summary(model11)
+
+```
+
